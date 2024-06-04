@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<nav class="navbar navbar-expand-lg navbar-dark" 
+    style="
+        width: 100%; 
+        height: 70px;
+        background: darkcyan;
+        color: white;
+">
+    <div class="container px-4 px-lg-5">
+        <a class="navbar-brand" href="#!" style="font-size: 30px; color: whitesmoke;"> Book Store </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                <!-- User -->
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'store-front' %}"> Home </a>
+                </li>
+
+                {% if user.is_superuser %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle active" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Admin options
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{% url 'users_view' %}"> View All Users </a></li>
+                        <li><a class="dropdown-item" href="{% url 'all_order_history' %}"> All Order History </a></li>
+                        <li><a class="dropdown-item" href="{% url 'return_requests' %}"> Return Requests </a></li>                      
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <li><a class="nav-link active" href="http://127.0.0.1:8000/admin/"> Admin Settings </a></li>
+                </li>
+                {% else %}
+                
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle active" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      User options
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="{% url 'order-history' %}"> Order History </a></li>
+                      <li><a class="dropdown-item" href="{% url 'my-return-requests' %}"> My Return Requests </a></li>
+                      <li><a class="dropdown-item" href="{% url 'make-return-request' %}"> Make Return Request </a></li>
+                      <!-- <li><a class="dropdown-item" href="#">Something else here</a></li> -->
+                    </ul>
+                </li>
+                {% endif %}
+
+            </ul>
+
+            <ul class="navbar-nav mb-2 mb-lg-0">
+                <li class="nav-item">
+                    {% if user.is_authenticated and not user.is_superuser %}
+                    <form class="d-flex" action="{% url 'cart-view' %}" style="margin-right: 20px;">
+                        <button class="btn btn-outline-light" type="submit">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                            Cart
+                            <!-- <span class="badge bg-dark text-white ms-1 rounded-pill"> {{ total_items }} </span> -->
+                        </button>
+                    </form>
+                    {% endif %}
+                </li>
+                <li class="nav-item">
+                    {% if user.is_authenticated %}
+                    <div class="user-info">
+                        <div class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <!-- <i class="fa-solid fa-user"></i> -->
+                                <i class="fas fa-user"></i>
+                                {{ user.username }}
+                            </a>
+                            <ul class="dropdown-menu">
+                                
+                                <li><p class="dropdown-item"> Hello, {{ user.first_name }} {{ user.last_name }} </p></li>
+        
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{% url 'user_details' %}"> User Details </a></li>
+                                <form method="POST" action="{% url 'logout' %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="dropdown-item">Logout</button>
+                                </form>
+                            </ul>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div>
+                        <a href="{% url 'login' %}" class="btn btn-sm btn-secondary">Login</a>
+                        <a href="{% url 'signup' %}" class="btn btn-sm btn-secondary">Register</a>
+                    </div>
+                    {% endif %}
+                </li>
+            </ul>
+
+
+        </div>
+    </div>
+</nav>
+
+{% endblock %}

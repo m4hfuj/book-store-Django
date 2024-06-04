@@ -1,0 +1,128 @@
+{% include 'navbar.html' %}
+
+{% block content %}
+<main>
+
+<h3>Product List <a href="{% url 'product_create' %}" class="btn btn-sm btn-primary"> Create Product </a> </h3> 
+
+
+
+<table class="table table-primary">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Author</th>
+            <th>Bonus</th>
+            <th>Discount(%)</th>
+            <th>Org. Price</th>
+            <th>Dis. Price</th>
+            <th>Quantity</th>
+            <th>Operations</th>
+        </tr>
+    </thead>
+    <tbody id="product-table-body">
+        <!-- Rows will be dynamically inserted here -->
+    </tbody>
+</table>
+
+<!-- <a href="${updateUrl}" class="btn btn-sm btn-success" onclick ="addToCart(this, '${Product.slug}' )" > Update </i> </a>  -->
+
+{{products_serialized|json_script:'products_list'}}
+
+<script>
+    const Products = JSON.parse( document.getElementById('products_list').textContent );
+    console.log(Products);
+    
+    function renderTable(Products) {
+        const tableBody = document.getElementById('product-table-body');
+        tableBody.innerHTML = '';
+
+        Products.forEach(Product => {
+            const row = document.createElement('tr');
+            let newPrice = Product.price;
+            if (Product.discount_active == true) {
+                newPrice = (Product.price*(100-Product.discount))/100.0;
+                newPrice = newPrice.toFixed(2);
+            };
+            const bonus = `${Product.bonus_amount}/${Product.bonus_minimum}`
+
+            // Use Django's template language to get the URL
+            const updateUrl = "{% url 'product_update' slug='dummy-slug' %}".replace('dummy-slug', Product.slug);
+
+
+            row.innerHTML = `
+                <td>${Product.id}</td>
+                <td>${Product.name}</td>
+                <td>${Product.author}</td>
+                <td>${Product.bonus_active ? bonus : '-'}</td>
+                <td>${Product.discount_active ? Product.discount : '-'}</td>
+                <td>${Product.price}</td>
+                <td>${newPrice}</td>
+                <td>${Product.quantity ? Product.quantity : 'Out of Stock'}</td>
+                <td>
+                    <a class="btn btn-sm btn-danger" onclick ="addToCart(this, '${Product.slug}' )" > Delete </i> </a> 
+                </td>
+            `;
+            tableBody.appendChild(row);
+        });
+    };
+
+
+    function sortProducts() {
+        // alert('Sorting')
+        const sortBy = document.getElementById('sort_by').value;
+        const sortOrder = document.getElementById('sort_order').value;
+        const sortedProducts = Products.sort((a, b) => {
+            let comparison = 0;
+            if (a[sortBy] > b[sortBy]) {
+                comparison = 1;
+            } else if (a[sortBy] < b[sortBy]) {
+                comparison = -1;
+            }
+            return sortOrder === 'asc' ? comparison : -comparison;
+        });
+        renderTable(sortedProducts);
+    }
+    
+    function addToCart(button, slug) {
+        const row = button.closest('tr');
+        const amount = row.querySelector('.amount').value;
+
+        // AJAX request to send the amount to the Django view
+        const formData = new FormData();
+        formData.append('slug', slug);
+        formData.append('amount', amount);
+        
+        fetch(`/add-to-cart/${slug}/`, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}', // Ensure you have a CSRF token
+            },
+        })
+        .then(response => {
+            return response.json().then(data => ({ status: response.status, body: data }));
+        })
+        .then(({ status, body }) => {
+            if (status === 200) {
+                alert(body.success);
+            } else if (status === 401) {
+                alert('You need to log in to add items to the cart.');
+            } else {
+                alert(body.error || 'Failed to add item to cart.');
+            }
+        })
+        .catch(error => {
+            console.log ('Error adding item to cart:', error);
+            alert('An error occurred while adding item to cart.');
+        });
+    };
+    
+    renderTable(Products);
+
+</script>
+
+
+</main>
+{% endblock %}

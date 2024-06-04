@@ -1,0 +1,60 @@
+{% include 'navbar.html' %}
+
+{% block content %}
+<main>
+
+
+<table class="table">
+
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Username</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Address</th>
+            <th scope="col">Mobile</th>
+            <th scope="col">Admin</th>
+        </tr>
+
+    </thead>
+    <tbody id="table-body">
+        <!-- Rows here dynamically -->
+    </tbody>
+
+</table>
+
+
+{{users_serialized|json_script:'data'}}
+
+
+<script>
+    const data = JSON.parse( document.getElementById('data').textContent );
+    console.log(data);
+
+    function renderTable(data) {
+        const tableBody = document.getElementById('table-body');
+        tableBody.innerHTML = '';
+
+        data.forEach(element => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${element.id}</td>
+                <td>${element.username}</td>
+                <td>${element.first_name} ${element.last_name}</td>
+                <td>${element.email}</td>
+                <td>${element.address}</td>
+                <td>${element.mobile}</td>
+                <td>${element.is_superuser}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+    };
+    
+    renderTable(data);
+
+</script>
+
+
+</main>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% include 'navbar.html' %}
+
+{% block content %}
+<main>
+
+
+    <h1>Update Product</h1>
+    <br>
+
+    <form method="post">
+
+        {% csrf_token %}
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" value="{{ product.name }}" required>
+        <br>
+        <br>
+
+        <label for="category">Category:</label>
+        <!-- <input type="text" id="category" name="category" value="{{ product.category }}" required><br> -->
+        <select name="category" id="category">
+            {% for category in categories %}
+            <option value="{{ category.id }} "> {{ category.name }} </option>
+            {% endfor %}
+
+            <!-- {% for category in categories %}
+            <option value="{{ category.name }}" {% if category.name == product.category %} selected {% endif %}>
+                {{ category.name }}
+            </option>
+            {% endfor %} -->
+
+
+        </select>
+        <br>
+        <br>
+
+        <label for="discount">Discount:</label>
+        <select name="discount" id="discount" >
+            <option value=""> ---- </option>
+            {% for discount in discounts %}
+            <option value="{{ discount.id }}"> {{ discount.percentage }}% - {{ discount.active }} </option>
+            {% endfor %}
+        </select>
+        <br>
+        <br>
+
+        <label for="bonus">Bonus:</label>
+        <select name="bonus" id="bonus">
+            <option value=""> ---- </option>
+            {% for bonus in bonuses %}
+            <option value="{{ bonus.id }}"> {{ bonus.amount }} / {{ bonus.minimum }} </option>
+            {% endfor %}
+        </select>
+        <br>
+        <br>
+
+        <label for="price">Price:</label>
+        <input type="number" id="price" name="price" value="{{ product.price }}" step="0.01" required>
+        <br>
+        <br>
+
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" name="quantity" value="{{ inventory.quantity }}" required>
+        <br>
+        <br>
+
+        <button class="btn btn-sm btn-success" type="submit">Update</button>
+        <a class="btn btn-sm btn-danger" href="{% url 'product_list' %}">Cancel</a>
+    </form>
+
+
+
+</main>
+{% endblock %}

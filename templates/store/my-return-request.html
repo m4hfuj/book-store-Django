@@ -1,0 +1,59 @@
+{% include 'navbar.html' %}
+
+{% block content %}
+<main>
+
+    <h1>My Return Request</h1>
+
+    <table class="table">
+
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Bonus Item to Return</th>
+                <th>Refund</th>
+                <th>By</th>
+                <th>Date</th>
+                <th>Status</th>
+            </tr>
+
+        </thead>
+        <tbody id="table-body">
+            <!-- Rows here dynamically -->
+            {% for req in return_requests %}
+                <tr>
+                    <td>{{req.id}}</td>
+                    <td>Return Request for {{req.order_item.product}}</td>
+                    <td>{{req.quantity}}</td>
+                    <td>{{req.bonus_return}}</td>
+                    <td>{{req.price_refund}}</td>
+                    <td>{{req.user}}</td>
+                    <td>{{req.created_at}}</td>
+                    <td style="width: 100px;">
+                        {% if req.status == 'Pending' %}
+                        <span class="badge bg-warning w-100"> {{req.status}} </span>
+                        {% elif req.status == 'Accepted' %}
+                        <span class="badge bg-success w-100"> {{req.status}} </span>
+                        {% elif req.status == 'Rejected' %}
+                        <span class="badge bg-danger w-100"> {{req.status}} </span>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+
+</main>
+
+
+<style>
+    /* Disable pointer events for the button */
+    .unselectable {
+        pointer-events: none;
+    }
+    </style>
+
+{% endblock %}

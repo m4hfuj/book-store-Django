@@ -1,0 +1,24 @@
+{% include 'navbar.html' %}
+
+{% block content %}
+<main>
+
+    <h3>Add Author</h3>
+
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            Author Name:
+            <input type="text" id="category_name" name="category_name" required>
+            <br><br>
+
+            Description:
+            <textarea type="text" id="category_description" name="category_description" style="width: 250px; height: 100px;"> </textarea>
+            <br><br>
+
+            <input type="submit" value="Submit">
+        </div>
+    </form>
+
+</main>
+{% endblock %}

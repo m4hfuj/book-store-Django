@@ -1,0 +1,101 @@
+<!-- templates/registration/signup.html -->
+{% extends "base.html" %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+<main>
+
+  <h2>Sign up</h2>
+
+  <!-- <form method="post">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit">Sign Up</button>
+  </form> -->
+
+  <form method="post">
+    {% csrf_token %}
+    <div>
+      <label for="id_username">Username:</label>
+      <input type="text" name="username" id="id_username" >
+      {% if form.username.errors %}
+        <div class="error">
+          {{ form.username.errors }}
+        </div>
+      {% endif %}
+    </div>
+
+    <div>
+      <label for="id_first_name">First Name:</label>
+      <input type="text" name="first_name" id="id_first_name" >
+      {% if form.first_name.errors %}
+        <div class="error">
+          {{ form.first_name.errors }}
+        </div>
+      {% endif %}
+    </div>
+    <div>
+      <label for="id_last_name">Last Name:</label>
+      <input type="text" name="last_name" id="id_last_name" >
+      {% if form.last_name.errors %}
+        <div class="error">
+          {{ form.last_name.errors }}
+        </div>
+      {% endif %}
+    </div>
+    <div>
+      <label for="id_email">Email:</label>
+      <input type="email" name="email" id="id_email">
+      {% if form.email.errors %}
+        <div class="error">
+          {{ form.email.errors }}
+        </div>
+      {% endif %}
+    </div>
+
+    <div>
+      <label for="id_password1">Password:</label>
+      <input type="password" name="password1" >
+      {% if form.password1.errors %}
+        <div class="error">
+          {{ form.password1.errors }}
+        </div>
+      {% endif %}
+    </div>
+    <div>
+      <label for="id_password2">Confirm Password:</label>
+      <input type="password" name="password2" >
+      {% if form.password2.errors %}
+        <div class="error">
+          {{ form.password2.errors }}
+        </div>
+      {% endif %}
+    </div>
+
+    <div>
+      <label for="">Address:</label>
+      <input type="text" name="address1" id="address1" >
+      {% if form.address1.errors %}
+        <div class="error">
+          {{ form.address1.errors }}
+        </div>
+      {% endif %}
+    </div>
+
+    <div>
+      <label for="">Mobile No:</label>
+      <input type="text" name="mobile" id="mobile" >
+      {% if form.mobile.errors %}
+        <div class="error">
+          {{ form.mobile.errors }}
+        </div>
+      {% endif %}
+    </div>
+
+
+    <button type="submit">Sign Up</button>
+  </form>
+
+</main>
+{% endblock %}

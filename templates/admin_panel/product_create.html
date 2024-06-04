@@ -1,0 +1,43 @@
+{% include 'navbar.html' %}
+
+{% block content %}
+
+<main>
+
+    <h3>Create Product</h3>
+
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+
+            Author Name:
+            <select id="category" name="category">
+                {% for category in categories %}
+                <option value="{{category.name}}"> {{category.name}} </option>
+                {% endfor %}
+                <!-- <option value="other">Other...</option> -->
+            </select>
+            <a href="{% url 'category_create' %}" class="btn btn-sm btn-primary">Create Author</a>
+            <br><br>
+
+            Book Name:
+            <input type="text" id="product_name" name="product_name">
+            <br><br>
+
+            Price:
+            <input type="number" id="product_price" name="product_price">
+            <br><br>
+
+            Quantity:
+            <input type="number" id="product_quantity" name="product_quantity">
+            <br><br>
+
+            <input type="submit" value="Submit">
+
+        </div>
+    </form>
+
+
+</main>
+{% endblock %}
+

@@ -1,0 +1,63 @@
+{% include 'navbar.html' %}
+
+{% block content %}
+<main>
+
+    <h3>Pending Return Requests</h3>
+
+    <table class="table">
+
+        <thead>
+            <tr>
+                <th>ID</th>
+                <!-- <th>Slug</th> -->
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Bonus</th>
+                <th>Refund</th>
+                <th>By</th>
+                <th>Date</th>
+                <th>Accepted</th>
+                <th>Rejected</th>
+                <!-- <th>Status</th> -->
+                <th>Button</th>
+            </tr>
+
+        </thead>
+        <tbody id="table-body">
+            <!-- Rows here dynamically -->
+            {% for req in return_requests %}
+                <tr>
+                    <td>{{req.id}}</td>
+                    <!-- <td style="width: 10px;">{{req.slug}}</td> -->
+                    <td>{{req.order_item.product}}</td>
+                    <td>{{req.quantity}} </td>
+                    <td>{{req.bonus_return}}</td>
+                    <td>{{req.price_refund}}</td>
+                    <td>{{req.user}}</td>
+                    <td>{{req.created_at}}</td>
+                    <td>{{req.accepted_at}}</td>
+                    <td>{{req.rejected_at}}</td>
+                    <!-- <td>{{req.status}}</td> -->
+                    {% if req.status == 'Pending' %}
+                    <td style="width: 100px;">
+                        <a class="btn btn-sm btn-success" style="width: 40px;" href="{% url 'rr_accept' req.slug %}"><i class="fa-solid fa-check"></i></a>
+                        <a class="btn btn-sm btn-danger" style="width: 40px;" href="{% url 'rr_reject' req.slug %}"><i class="fa-solid fa-xmark"></i></a>
+                    </td>
+                    {% elif req.status == 'Accepted' %}
+                    <td style="width: 100px;"> 
+                        <span class="badge bg-success w-100">Accepted</span> 
+                    </td>
+                    {% elif req.status == 'Rejected' %}
+                    <td  style="width: 100px;"> 
+                        <span class="badge bg-danger w-100">Rejected</span> 
+                    </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+
+</main>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% include 'navbar.html' %}
+
+{% block content %}
+<main>
+
+    <h3>User Details</h3>
+
+    <p>
+        {{user.username}}
+    </p>
+    
+    <p>
+        {{user.first_name}}
+        {{user.last_name}}
+    </p>
+
+    <p>
+        {{user.email}}
+    </p>
+
+    <p>
+        {{user_details.address1}}
+    </p>
+
+    <p>
+        {{user_details.mobile}}
+    </p>
+
+</main>
+{% endblock %}

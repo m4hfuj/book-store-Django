@@ -1,0 +1,105 @@
+{% include 'navbar.html' %}
+
+{% block content %}
+<main>
+
+    <h3>Make Return Request</h3>
+
+    <table class="table">
+
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Bonus</th>
+                <th>Price/Item</th>
+                <th>Bought Date</th>
+                <th>Amount</th>
+                <th>Button</th>
+            </tr>
+
+        </thead>
+        <tbody id="table-body">
+            <!-- Rows here dynamically -->
+        </tbody>
+
+    </table>
+
+</main>
+
+<!-- <td>${item.bonus ? item.bonus : '-'}</td> -->
+
+
+{{items_serialized|json_script:'items_list'}}
+
+<script>
+    const items_list = JSON.parse(document.getElementById('items_list').textContent);
+
+    console.log(items_list)
+
+    const tableBody = document.getElementById('table-body');
+    tableBody.innerHTML = '';
+
+    items_list.forEach(item => {
+        const row = document.createElement('tr');
+        const isoDate = new Date(item.created);
+
+        requested = item.rr_quantity - item.quantity
+
+        row.id = `item-${item.id}`; 
+        row.innerHTML = `
+            <td>${item.id}</td>
+            <td>${item.name}</td>
+            <td id="quantity-${item.id}">
+                ${item.rr_quantity} ${item.rr_quantity - item.quantity ? `<span class="text-danger"> ${item.rr_quantity - item.quantity} </span>` : '' }
+            </td>
+            <td> 
+                ${item.rr_bonus} ${item.rr_bonus - item.bonus ? `<span class="text-danger"> ${item.rr_bonus - item.bonus} </span>` : '' }
+            </td>
+            <td>${item.price}</td>
+            <td style="width: 250px;">${isoDate}</td>
+
+            <td>
+                <input type="number" name="amount" class="amount" value="1" min="1" max="${item.quantity}" style="width: 70px;">
+            </td>
+            <td>
+                <button class="btn btn-sm btn-primary" type="submit" onclick="sendRequest( this, ${item.id} )"> Return Request </button> 
+            </td>
+        `;
+        tableBody.appendChild(row);
+    });
+
+    function sendRequest(button, id) {
+        const row = button.closest('tr');
+        const amount = row.querySelector('.amount').value;
+
+        // AJAX request to send the amount to the Django view
+        const formData = new FormData();
+        formData.append('id', id);
+        formData.append('amount', amount);
+        
+        fetch(`/make-return-request/${id}/`, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+            },
+        })
+        .then(response => {
+            if (response.ok) {
+                alert(`Successfull!`);
+            } else {
+                alert('Failed!');
+            }
+        })
+        .catch(error => {
+            console.error('Error adding item to cart:', error);
+            alert('An error occurred while adding item to cart.');
+        });
+    };
+
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,72 @@
+{% include 'navbar.html' %}
+
+{% block content %}
+<main>
+
+<h1>Order history</h1>
+
+<table class="table">
+
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Address</th>
+            <th>Create Date Time</th>
+            <th>Status</th>
+            <th>Items</th>
+            <th>Price</th>
+            <th>Button</th>
+        </tr>
+    </thead>
+
+
+    <tbody>
+    
+    {% for order, items in order_item_sets %}
+
+        <tr>
+            <td>{{order.id}}</td>
+            <td>{{order.user}}</td>
+            <td>{{order.address}}</td>
+            <td>{{order.created_at}}</td>
+            <td>{{order.status}}</td>
+
+            <td>
+                <ul class="list-group">
+                {% for item in items %}
+                    <li class="list-item">{{item.product}} x {{item.quantity}} @ {{item.price}}</li>
+                {% endfor %}
+                </ul>
+            </td>
+
+            <td>{{order.total_price}}</td>
+
+            <td style="width: 160px;">
+                {% if order.status == 'Pending' %}
+                <a href="{% url 'deliver_product' slug=order.slug %}"> <button class="btn btn-sm btn-warning"> Deliver </button></a> 
+                <a href="{% url 'cancel-order' slug=order.slug %}"> <button class="btn btn-sm btn-danger"> Cancel </button></a> 
+                {% elif order.status == 'Cancelled' %}
+                <a href="{% url 're-order' slug=order.slug %}"> <button class="btn btn-sm btn-success"> Re Order </button></a> 
+                {% endif %}
+            </td>
+        </tr>
+    
+    {% endfor %}
+
+    </tbody>
+    
+</table>
+
+{% if messages %}
+    <div>
+        {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+</main>
+{% endblock %}
