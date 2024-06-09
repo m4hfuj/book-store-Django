@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     '.vercel.app',
+    '127.0.0.1',
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
@@ -41,11 +42,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'corsheaders',
-
-    # 'rest_framework',
-    # 'api',
-    'fontawesomefree',
     'accounts',
     'admin_panel',
     'store',
