@@ -11,13 +11,12 @@
         <div class="form-group">
 
             Author Name:
-            <select id="category" name="category">
-                {% for category in categories %}
-                <option value="{{category.name}}"> {{category.name}} </option>
+            <select id="author" name="author">
+                {% for author in authors %}
+                <option value="{{author.name}}"> {{author.name}} </option>
                 {% endfor %}
                 <!-- <option value="other">Other...</option> -->
             </select>
-            <a href="{% url 'category_create' %}" class="btn btn-sm btn-primary">Create Author</a>
             <br><br>
 
             Book Name:

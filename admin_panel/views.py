@@ -114,9 +114,9 @@ def product_create(request):
             print(product_name, product_price, product_author, product_quantity)
             return JsonResponse({"message":"Product Added"})
 
-        categories = Author.objects.all().order_by('name')
+        authors = Author.objects.all().order_by('name')
         return render(request, 'admin_panel/product_create.html', {
-            'categories': categories,
+            'authors': authors,
         })
     
 @login_required
