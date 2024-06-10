@@ -112,7 +112,8 @@ def product_create(request):
             )
 
             print(product_name, product_price, product_author, product_quantity)
-            return JsonResponse({"message":"Product Added"})
+            # return JsonResponse({"message":"Product Added"})
+            return redirect('product_create')
 
         authors = Author.objects.all().order_by('name')
         return render(request, 'admin_panel/product_create.html', {
