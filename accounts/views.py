@@ -1,9 +1,11 @@
 # accounts/views.py
 from django.shortcuts import render, redirect
 # from django.contrib.auth.forms import UserCreationForm
+from django.http import HttpResponse, JsonResponse
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from django.contrib.auth import login, authenticate
+from django.contrib.auth.models import User
 from .forms import CustomUserCreationForm
 from .models import UserDetails
 from store.models import Cart
@@ -13,6 +15,22 @@ from django.contrib.auth.decorators import login_required
 #     form_class = CustomUserCreationForm
 #     success_url = reverse_lazy("login")
 #     template_name = "registration/signup.html"
+
+
+def check_username(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        if username:
+            if User.objects.filter(username = username):
+                return JsonResponse({'error': 'Username already exists'}, status=400)
+            else:
+                print("Alright==================================================================")
+                return JsonResponse({'success': 'Procced with registration.'}, status=200)
+        else:
+            return JsonResponse({'error': 'Username is required'}, status=400)
+    else:
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+
 
 
 def signup(request):
