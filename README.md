@@ -24,13 +24,13 @@ Backend (Django)
 
 ## Frontend (HTML, CSS, JavaScript)
 
-    Responsive Design:
-        Designed a responsive layout that adapts to various screen sizes, providing an optimal viewing experience on desktops, tablets, and mobile devices.
+### Responsive Design:
+   - Designed a responsive layout that adapts to various screen sizes, providing an optimal viewing experience on desktops, tablets, and mobile devices.
 
-    UI/UX Design:
-        Developed a user-friendly interface with intuitive navigation, allowing users to easily browse categories, search for books, and manage their shopping cart.
-        Used CSS for styling, ensuring consistency in color schemes, typography, and spacing.
+### UI/UX Design:
+   - Developed a user-friendly interface with intuitive navigation, allowing users to easily browse categories, search for books, and manage their shopping cart.
+   - Used CSS for styling, ensuring consistency in color schemes, typography, and spacing.
 
-    JavaScript Interactivity:
-        Implemented dynamic features such as real-time cart updates, form validation, and interactive elements like carousels and modals.
-        Enhanced user experience with AJAX for asynchronous data loading, reducing page reloads and improving performance.
+### JavaScript Interactivity:
+   - Implemented dynamic features such as real-time cart updates, form validation, and interactive elements like carousels and modals.
+   - Enhanced user experience with AJAX for asynchronous data loading, reducing page reloads and improving performance.
