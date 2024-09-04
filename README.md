@@ -4,23 +4,23 @@ You developed a bookstore e-commerce platform with a robust backend using Django
 Backend (Django)
 
 ### User Authentication:
-    Implemented user registration, login, and logout functionalities.
-    Integrated password reset and email verification.
-    Secured access to specific pages based on user roles (e.g., customer, admin).
+   - Implemented user registration, login, and logout functionalities.
+   - Integrated password reset and email verification.
+   - Secured access to specific pages based on user roles (e.g., customer, admin).
 
 ### Product Management:
-    Created models for books, including attributes like title, author, genre, price, and stock quantity.
-    Admin interface to add, update, and delete book records.
-    Designed a search functionality to find books by title, author, or genre.
+   - Created models for books, including attributes like title, author, genre, price, and stock quantity.
+   - Admin interface to add, update, and delete book records.
+   - Designed a search functionality to find books by title, author, or genre.
 
 ### Order Management:
-    Enabled users to add books to a shopping cart and proceed to checkout.
-    Integrated payment gateway (optional) for processing transactions.
-    Developed order history tracking for both customers and admins.
+   - Enabled users to add books to a shopping cart and proceed to checkout.
+   - Integrated payment gateway (optional) for processing transactions.
+   - Developed order history tracking for both customers and admins.
 
 ### Web Apps:
-    Created separate apps within Django for handling different aspects of the platform, such as user profiles, product listings, and order processing.
-    Used Django’s templating system to dynamically generate HTML content based on the data retrieved from the database.
+   - Created separate apps within Django for handling different aspects of the platform, such as user profiles, product listings, and order processing.
+   - Used Django’s templating system to dynamically generate HTML content based on the data retrieved from the database.
 
 ## Frontend (HTML, CSS, JavaScript)
 
